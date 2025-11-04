@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/models/provider_song.dart';
 import 'package:music_player/pages/home_pages.dart';
 import 'package:music_player/themes/theme_provider.dart';
-import 'package:provider/provider.dart' show ChangeNotifierProvider, Provider;
+import 'package:provider/provider.dart' show ChangeNotifierProvider, MultiProvider, Provider;
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
-      child: const MyApp(
-    ),
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ChangeNotifierProvider(create: (context) => ProviderSong()),
+
+    ],
+    child: const MyApp(),
     ),
   );
 }
