@@ -10,34 +10,43 @@ class SongPages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ProviderSong>(
-      builder: (context, value, child) => Scaffold(
+      builder: (context, value, child) {
+
+        final playlist =value.Playlist;
+
+        final currentSong = playlist[value.currentSongIndex ?? 0];
+
+        return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
 
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(left: 25, right: 25, bottom: 25),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+                    IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back)),
 
-                    Text("PL A Y L I S T"),
+                    const Text("PL A Y L I S T"),
 
-                    IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+                    IconButton(onPressed: () {}, icon:const Icon(Icons.menu)),
                   ],
                 ),
+
+                const SizedBox(height: 25,),
 
                 NeuBox(
                   child: Column(
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadiusGeometry.circular(12),
-                        child: Image.asset("assets/images/ephi.jpg"),
+                        child: Image.asset(currentSong.albumArtImagePath, width: 250,),
                       ),
 
-                      const Padding(
+                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,13 +55,13 @@ class SongPages extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "I wish I was your joke",
-                                  style: TextStyle(
+                                  currentSong.songName,
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
                                 ),
-                                Text("Reality Club"),
+                                Text(currentSong.ArtistName,),
                               ],
                             ),
 
@@ -81,8 +90,9 @@ class SongPages extends StatelessWidget {
                     ),
                     SliderTheme(
                       data: SliderTheme.of(context).copyWith(
-                        thumbShape: 
-                          const RoundSliderThumbShape(enabledThumbRadius: 0),
+                        thumbShape: const RoundSliderThumbShape(
+                          enabledThumbRadius: 0,
+                        ),
                       ),
                       child: Slider(
                         min: 0,
@@ -94,11 +104,44 @@ class SongPages extends StatelessWidget {
                     ),
                   ],
                 ),
+
+                const SizedBox(height: 25),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: NeuBox(child: Icon(Icons.skip_previous)),
+                      ),
+                    ),
+
+                    const SizedBox(width: 15),
+
+                    Expanded(
+                      flex: 2,
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: NeuBox(child: Icon(Icons.pause)),
+                      ),
+                    ),
+
+                    const SizedBox(width: 15),
+
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: NeuBox(child: Icon(Icons.skip_next)),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
         ),
-      ),
+      );
+      }
     );
   }
 }
