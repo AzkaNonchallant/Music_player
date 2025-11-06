@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:music_player/models/provider_song.dart';
 import 'package:music_player/pages/home_pages.dart';
 import 'package:music_player/themes/theme_provider.dart';
-import 'package:provider/provider.dart' show ChangeNotifierProvider, MultiProvider, Provider;
+import 'package:provider/provider.dart';
+import 'pages/home_pages.dart';
+import 'models/provider_song.dart';
 
 void main() {
   runApp(
-    MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => ThemeProvider()),
-      ChangeNotifierProvider(create: (context) => ProviderSong()),
-
-    ],
-    child: const MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProviderSong()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
+      child: const MyApp(),
+      
     ),
   );
 }
@@ -19,13 +22,12 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomePages(),
       theme: Provider.of<ThemeProvider>(context).themeData,
+      home: const HomePages(),
     );
   }
 }
